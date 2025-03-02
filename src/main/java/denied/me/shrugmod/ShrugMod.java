@@ -2,40 +2,48 @@ package denied.me.shrugmod;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
-import net.fabricmc.api.ModInitializer;
-
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ShrugMod implements ModInitializer {
+public class ShrugMod implements ClientModInitializer {
 	public static final String MOD_ID = "shrug-mod";
-
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	@Override
-	public void onInitialize() {
-		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-			dispatcher.register(CommandManager.literal("shrug")
+	public void onInitializeClient() {
+		LOGGER.info("[ShrugMod] Registering client-side command...");
+
+		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+			dispatcher.register(ClientCommandManager.literal("shrug")
 					.executes(ShrugMod::shrugWithoutMessage)
-					.then(CommandManager.argument("message", StringArgumentType.greedyString())
+					.then(ClientCommandManager.argument("message", StringArgumentType.greedyString())
 							.executes(ShrugMod::shrugWithMessage)));
 		});
 	}
 
-	private static int shrugWithoutMessage(CommandContext<ServerCommandSource> context) {
-		ServerCommandSource source = context.getSource();
-		source.sendMessage(Text.literal("¯\\_(ツ)_/¯"));
-		return 1;
+	private static int shrugWithoutMessage(CommandContext<?> context) {
+		return sendClientChatMessage("¯\\_(ツ)_/¯");
 	}
 
-	private static int shrugWithMessage(CommandContext<ServerCommandSource> context) {
-		ServerCommandSource source = context.getSource();
+	private static int shrugWithMessage(CommandContext<?> context) {
 		String message = StringArgumentType.getString(context, "message");
-		source.sendMessage(Text.literal(message + " ¯\\_(ツ)_/¯"));
+		return sendClientChatMessage(message + " ¯\\_(ツ)_/¯");
+	}
+
+	private static int sendClientChatMessage(String message) {
+		MinecraftClient client = MinecraftClient.getInstance();
+		if (client.player != null) {
+			// Send the message as if the player typed it
+			client.player.networkHandler.sendChatMessage(message);
+			LOGGER.info("[ShrugMod] Sent chat message: {}", message);
+		} else {
+			LOGGER.warn("[ShrugMod] Player instance is null! Message not sent.");
+		}
 		return 1;
 	}
 }

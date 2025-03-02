@@ -5,23 +5,18 @@
 	"name": "Shrug Mod",
 	"description": "Adds the discord /shrug command to minecraft",
 	"authors": [
-		"Me!"
+		"403Denied"
 	],
 	"contact": {
 		"homepage": "https://403denied.me",
+		"github": "https://github.com/403Denied"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/shrug-mod/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main": [
-			"denied.me.shrugmod.ShrugMod"
-		],
-		"fabric-datagen": [
-			"denied.me.shrugmod.ShrugModDataGenerator"
-		],
 		"client": [
-			"denied.me.shrugmod.ShrugModClient"
+			"denied.me.shrugmod.ShrugMod"
 		]
 	},
 	"mixins": [
