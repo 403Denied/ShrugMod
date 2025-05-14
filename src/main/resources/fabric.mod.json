@@ -19,12 +19,9 @@
 			"denied.me.shrugmod.ShrugMod"
 		]
 	},
-	"mixins": [
-		"shrug-mod.mixins.json"
-	],
 	"depends": {
 		"fabricloader": ">=0.16.10",
-		"minecraft": "~1.21.4",
+		"minecraft": "~1.21.5",
 		"java": ">=21",
 		"fabric-api": "*"
 	},
