@@ -3,7 +3,7 @@
 	"id": "shrug-mod",
 	"version": "${version}",
 	"name": "Shrug Mod",
-	"description": "Adds the discord /shrug command to minecraft",
+	"description": "Adds the Discord /shrug command to Minecraft",
 	"authors": [
 		"403Denied"
 	],
@@ -21,7 +21,7 @@
 	},
 	"depends": {
 		"fabricloader": ">=0.16.10",
-		"minecraft": "~1.21.5",
+		"minecraft": "~1.21.7",
 		"java": ">=21",
 		"fabric-api": "*"
 	},
