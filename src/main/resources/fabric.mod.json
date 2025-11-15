@@ -3,7 +3,7 @@
 	"id": "shrug-mod",
 	"version": "${version}",
 	"name": "Shrug Mod",
-	"description": "Adds the Discord /shrug command to Minecraft",
+	"description": "Adds the Discord /shrug, /tableflip, and /unflip commands to Minecraft",
 	"authors": [
 		"403Denied"
 	],
@@ -20,12 +20,9 @@
 		]
 	},
 	"depends": {
-		"fabricloader": ">=0.16.10",
-		"minecraft": "~1.21.8",
+		"fabricloader": ">=0.17.3",
+		"minecraft": "~1.21.10",
 		"java": ">=21",
 		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
 	}
 }

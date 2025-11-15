@@ -16,7 +16,7 @@ public class ShrugMod implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		LOGGER.info("[ShrugMod] Registering client-side command...");
+		LOGGER.info("[ShrugMod] Registering client-side commands...");
 
 		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
 			dispatcher.register(ClientCommandManager.literal("shrug")
@@ -24,25 +24,47 @@ public class ShrugMod implements ClientModInitializer {
 					.then(ClientCommandManager.argument("message", StringArgumentType.greedyString())
 							.executes(ShrugMod::shrugWithMessage)));
 		});
+		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+			dispatcher.register(ClientCommandManager.literal("tableflip")
+					.executes(ShrugMod::tfWithoutMessage)
+					.then(ClientCommandManager.argument("message", StringArgumentType.greedyString())
+							.executes(ShrugMod::tfWithMessage)));
+		});
+		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+			dispatcher.register(ClientCommandManager.literal("unflip")
+					.executes(ShrugMod::ufWithoutMessage)
+					.then(ClientCommandManager.argument("message", StringArgumentType.greedyString())
+							.executes(ShrugMod::ufWithMessage)));
+		});
+
 	}
 
-	private static int shrugWithoutMessage(CommandContext<?> context) {
-		return sendClientChatMessage("¯\\_(ツ)_/¯");
-	}
+	private static int shrugWithoutMessage(CommandContext<?> context) {return sendClientChatMessage("¯\\_(ツ)_/¯");}
 
 	private static int shrugWithMessage(CommandContext<?> context) {
 		String message = StringArgumentType.getString(context, "message");
 		return sendClientChatMessage(message + " ¯\\_(ツ)_/¯");
 	}
+	private static int tfWithoutMessage(CommandContext<?> context) {return sendClientChatMessage("(╯°□°)╯︵ ┻━┻");}
+
+	private static int tfWithMessage(CommandContext<?> context) {
+		String message = StringArgumentType.getString(context, "message");
+		return sendClientChatMessage(message + " (╯°□°)╯︵ ┻━┻");
+	}
+	private static int ufWithoutMessage(CommandContext<?> context) {return sendClientChatMessage("┬─┬ノ( º _ ºノ)");}
+
+	private static int ufWithMessage(CommandContext<?> context) {
+		String message = StringArgumentType.getString(context, "message");
+		return sendClientChatMessage(message + " ┬─┬ノ( º _ ºノ)");
+	}
 
 	private static int sendClientChatMessage(String message) {
 		MinecraftClient client = MinecraftClient.getInstance();
 		if (client.player != null) {
-			// Send the message as if the player typed it
 			client.player.networkHandler.sendChatMessage(message);
 			LOGGER.info("[ShrugMod] Sent chat message: {}", message);
 		} else {
-			LOGGER.warn("[ShrugMod] Player instance is null! Message not sent.");
+			LOGGER.warn("[ShrugMod] Message not sent.");
 		}
 		return 1;
 	}
