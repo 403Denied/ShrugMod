@@ -60,12 +60,20 @@ public class ShrugMod implements ClientModInitializer {
 
 	private static int sendClientChatMessage(String message) {
 		MinecraftClient client = MinecraftClient.getInstance();
-		if (client.player != null) {
-			client.player.networkHandler.sendChatMessage(message);
-			LOGGER.info("[ShrugMod] Sent chat message: {}", message);
+
+		if (client.player != null && client.player.networkHandler != null) {
+			if (message.startsWith("/")) {
+				String command = message.substring(1);
+				client.player.networkHandler.sendChatCommand(command);
+				LOGGER.info("[ShrugMod] Executed command: /{}", command);
+			} else {
+				client.player.networkHandler.sendChatMessage(message);
+				LOGGER.info("[ShrugMod] Sent chat message: {}", message);
+			}
 		} else {
 			LOGGER.warn("[ShrugMod] Message not sent.");
 		}
+
 		return 1;
 	}
 }
