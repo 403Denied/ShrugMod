@@ -1,4 +1,4 @@
-package denied.me.shrugmod;
+package com.denied403.shrugmod;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
